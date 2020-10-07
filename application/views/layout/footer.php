@@ -30,5 +30,6 @@
 <script src="<?= base_url('/assets/theme_admin/'); ?>dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('/assets/theme_admin/'); ?>dist/js/demo.js"></script>
+<script src="<?= base_url('/assets/theme_admin/'); ?>js/myscript.js"></script>
 </body>
 </html>

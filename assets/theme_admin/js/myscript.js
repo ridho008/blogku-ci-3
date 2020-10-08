@@ -1,5 +1,6 @@
 $(function() {
 	CKEDITOR.replace('editor1');
+	$('[data-toggle="tooltip"]').tooltip();
 	$('.tombolTambahKategori').click(function() {
 		$('#formModalKategoriLabel').html('Tambah Data Kategori');
 	});

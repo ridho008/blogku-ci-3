@@ -32,6 +32,7 @@
                   <thead>                  
                     <tr>
                       <th>No</th>
+                      <th>Thumb</th>
                       <th>Judul</th>
                       <th>Tanggal</th>
                       <th>Kategori</th>
@@ -46,6 +47,9 @@
                   	<?php $no = 1; foreach($artikel as $a) : ?>
                     <tr>
                     	<td><?= $no++; ?></td>
+                      <td>
+                        <img src="<?= base_url('assets/theme_admin/img/artikel/') . $a['gambar_artikel'] ?>" width="100">
+                      </td>
                     	<td><?= $a['judul']; ?></td>
                       <td><?= date('d-m-Y', strtotime($a['tanggal'])); ?></td>
                       <td><?= $a['nama_kategori']; ?></td>
@@ -60,9 +64,12 @@
                         <?php endif; ?>
                       </td>
                     	<td>
-                    		<button type="button" class="btn btn-primary tombolUbahArtikel" data-id="<?= $a['id_artikel']; ?>" data-toggle="modal" data-target="#formModalArtikel">
-                    		  <i class="fas fa-edit"></i>
-                    		</button>
+                        <?php if($a['status'] == 0) : ?>
+                        <a href="<?= base_url('admin/artikel/publish/') . $a['id_artikel']; ?>" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Publikasikan ?" onclick="return confirm('Publikasikan ?')"><i class="fas fa-paper-plane"></i></a>
+                        <?php else : ?>
+                        <a href="<?= base_url('admin/artikel/draft/') . $a['id_artikel']; ?>" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Draft ?" onclick="return confirm('Draft ?')"><i class="fab fa-firstdraft"></i></a>
+                        <?php endif; ?>
+                        <a href="<?= base_url('admin/artikel/ubahArtikel/') . $a['id_artikel']; ?>" class="btn btn-info"><i class="fas fa-edit"></i></a>
                     		<a href="<?= base_url('admin/artikel/hapus/') . $a['id_artikel']; ?>" onclick="return confirm('Yakin ?')" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                     	</td>
                     </tr>

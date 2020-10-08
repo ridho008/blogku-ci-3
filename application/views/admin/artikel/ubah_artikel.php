@@ -31,7 +31,7 @@
                   <small class="muted text-danger"><?= form_error('slug'); ?></small>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="kategori">kategori Artikel</label>
                       <select name="kategori" id="kategori" value="<?= set_value('kategori'); ?>" class="form-control">
@@ -47,7 +47,23 @@
                       <small class="muted text-danger"><?= form_error('kategori'); ?></small>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="penulis">Penulis Artikel</label>
+                      <select name="penulis" id="penulis" value="<?= set_value('penulis'); ?>" class="form-control">
+                        <option value="">-- Pilih Penulis --</option>
+                        <?php foreach($penulis as $p) : ?>
+                          <?php if($artikel['id_penulis'] == $p['id_penulis']) : ?>
+                        <option value="<?= $p['id_penulis']; ?>" selected><?= $p['nama_penulis']; ?></option>
+                        <?php else : ?>
+                          <option value="<?= $p['id_penulis']; ?>"><?= $p['nama_penulis']; ?></option>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+                      <small class="muted text-danger"><?= form_error('penulis'); ?></small>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="tag">Tag</label>
                       <input type="text" name="tag" value="<?= $artikel['tag']; ?>" id="tag" class="form-control" placeholder="Tag">

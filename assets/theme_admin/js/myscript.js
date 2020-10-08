@@ -1,8 +1,15 @@
 $(function() {
 	CKEDITOR.replace('editor1');
+	$(".datatables").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
 	$('[data-toggle="tooltip"]').tooltip();
 	$('.tombolTambahKategori').click(function() {
 		$('#formModalKategoriLabel').html('Tambah Data Kategori');
+
+		$('#id_kategori').val('');
+		$('#kategori').val('');
 	});
 
 	$('.tombolUbahKategori').click(function() {
@@ -29,6 +36,13 @@ $(function() {
 	$('.tombolTambahPenulis').click(function() {
 		$('#formModalPenulisLabel').html('Tambah Data Penulis');
 		$('#profile-tab').show();
+
+		$('#id_penulis').val('');
+		$('#user').val('');
+		$('#nama').val('');
+		$('#desk_penulis').val('');
+		$('#fotoPenulisLama').val('');
+		$('#tampilFotoPenulis').attr('src', '');
 	});
 
 	$('.tombolUbahPenulis').click(function() {

@@ -27,12 +27,14 @@ class Artikel extends CI_Controller {
 		$data['title'] = 'Tambah Data Artikel';
 		$data['user'] = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
 		$data['kategori'] = $this->db->get('kategori')->result_array();
+		$data['penulis'] = $this->db->get('penulis')->result_array();
 
 		$this->form_validation->set_rules('judul', 'Judul Artikel', 'required|trim');
 		$this->form_validation->set_rules('kategori', 'Kategori Artikel', 'required|trim');
 		$this->form_validation->set_rules('kategori', 'Kategori Artikel', 'required|trim');
 		$this->form_validation->set_rules('tag', 'Tag', 'required|trim');
 		$this->form_validation->set_rules('slug', 'Slug Artikel', 'required|trim');
+		$this->form_validation->set_rules('penulis', 'Penulis Artikel', 'required|trim');
 		$this->form_validation->set_rules('isi', 'Isi Artikel', 'required|trim');
 		if($this->form_validation->run() == FALSE) {
 			$this->load->view('layout/header', $data);
@@ -57,11 +59,13 @@ class Artikel extends CI_Controller {
 		$data['user'] = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
 		$data['kategori'] = $this->db->get('kategori')->result_array();
 		$data['artikel'] = $this->Artikel_model->getArtikelById($id);
+		$data['penulis'] = $this->db->get('penulis')->result_array();
 		$this->form_validation->set_rules('judul', 'Judul Artikel', 'required|trim');
 		$this->form_validation->set_rules('kategori', 'Kategori Artikel', 'required|trim');
 		$this->form_validation->set_rules('kategori', 'Kategori Artikel', 'required|trim');
 		$this->form_validation->set_rules('tag', 'Tag', 'required|trim');
 		$this->form_validation->set_rules('slug', 'Slug Artikel', 'required|trim');
+		$this->form_validation->set_rules('penulis', 'Penulis Artikel', 'required|trim');
 		$this->form_validation->set_rules('isi', 'Isi Artikel', 'required|trim');
 		if($this->form_validation->run() == FALSE) {
 			$this->load->view('layout/header', $data);

@@ -31,7 +31,7 @@
                   <small class="muted text-danger"><?= form_error('slug'); ?></small>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="kategori">kategori Artikel</label>
                       <select name="kategori" id="kategori" value="<?= set_value('kategori'); ?>" class="form-control">
@@ -43,7 +43,19 @@
                       <small class="muted text-danger"><?= form_error('kategori'); ?></small>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="penulis">Penulis Artikel</label>
+                      <select name="penulis" id="penulis" value="<?= set_value('penulis'); ?>" class="form-control">
+                        <option value="">-- Pilih Penulis --</option>
+                        <?php foreach($penulis as $p) : ?>
+                        <option value="<?= $p['id_penulis']; ?>"><?= $p['nama_penulis']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                      <small class="muted text-danger"><?= form_error('penulis'); ?></small>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="tag">Tag</label>
                       <input type="text" name="tag" value="<?= set_value('tag'); ?>" id="tag" class="form-control" placeholder="Tag">

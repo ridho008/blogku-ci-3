@@ -33,7 +33,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered datatables">
                   <thead>                  
                     <tr>
                       <th>No</th>
@@ -52,7 +52,7 @@
                        <img src="<?= base_url('assets/theme_admin/img/penulis/') . $p['foto_penulis']; ?>" width="100"> 
                       </td>
                       <td><?= $p['nama_penulis']; ?></td>
-                      <td><?= $p['desk_penulis']; ?></td>
+                      <td><?= word_limiter($p['desk_penulis'], 10); ?></td>
                       <td><?= $p['tgl_daftar']; ?></td>
                     	<td>
                     		<button type="button" class="btn btn-primary tombolUbahPenulis" data-id="<?= $p['id_penulis']; ?>" data-toggle="modal" data-target="#formModalPenulis">

@@ -7,6 +7,17 @@ class Artikel_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('artikel');
 		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		return $this->db->get()->result_array();
+	}
+
+	public function getJoinDilihat()
+	{
+		$this->db->select('*');
+		$this->db->from('artikel');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		$this->db->order_by('dilihat', 'desc');
 		return $this->db->get()->result_array();
 	}
 
@@ -50,6 +61,7 @@ class Artikel_model extends CI_Model {
 			'id_kategori' => html_escape($this->input->post('kategori', true)),
 			'tag' => html_escape($this->input->post('tag', true)),
 			'tanggal' => date('Y-m-d'),
+			'id_penulis' => html_escape($this->input->post('penulis', true)),
 			'status' => $status
 		];
 
@@ -93,11 +105,23 @@ class Artikel_model extends CI_Model {
 			'slug' => html_escape($slug),
 			'id_kategori' => html_escape($this->input->post('kategori', true)),
 			'tag' => html_escape($this->input->post('tag', true)),
+			'id_penulis' => html_escape($this->input->post('penulis', true)),
 			'status' => $status
 		];
 
 		$this->db->where('id_artikel', $id);
 		$this->db->update('artikel', $data);
+	}
+
+	public function getJoinKategori()
+	{
+		$this->db->select('*');
+		$this->db->from('artikel');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		$this->db->where('kategori.nama_kategori', 'Teknologi');
+		$this->db->limit('4');
+		return $this->db->get()->result_array();
 	}
 
 }

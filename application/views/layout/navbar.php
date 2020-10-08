@@ -51,31 +51,31 @@
                with font-awesome or any other icon font library -->
           <?php if($this->session->userdata('role') == 1) : ?>
           <li class="nav-item has-treeview">
-            <a href="<?= base_url('admin/dashboard'); ?>" class="nav-link">
+            <a href="<?= base_url('admin/dashboard'); ?>" class="nav-link<?= $this->uri->segment(2) == 'dashboard' ? ' active' : '' ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="<?= base_url('admin/artikel'); ?>" class="nav-link">
+            <a href="<?= base_url('admin/artikel'); ?>" class="nav-link<?= $this->uri->segment(2) == 'artikel' ? ' active' : '' ?>">
               <i class="nav-icon fas fa-newspaper"></i>
               <p>Artikel</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="<?= base_url('admin/kategori'); ?>" class="nav-link">
+            <a href="<?= base_url('admin/kategori'); ?>" class="nav-link<?= $this->uri->segment(2) == 'kategori' ? ' active' : '' ?>">
               <i class="nav-icon fas fa-list"></i>
               <p>Kategori</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="<?= base_url('admin/komentar'); ?>" class="nav-link">
+            <a href="<?= base_url('admin/komentar'); ?>" class="nav-link<?= $this->uri->segment(2) == 'komentar' ? ' active' : '' ?>">
               <i class="nav-icon fas fa-comment"></i>
               <p>Komentar</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="<?= base_url('admin/penulis'); ?>" class="nav-link">
+            <a href="<?= base_url('admin/penulis'); ?>" class="nav-link<?= $this->uri->segment(2) == 'penulis' ? ' active' : '' ?>">
               <i class="nav-icon fas fa-user-circle"></i>
               <p>Penulis</p>
             </a>

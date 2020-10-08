@@ -28,7 +28,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered datatables">
                   <thead>                  
                     <tr>
                       <th>No</th>
@@ -37,8 +37,8 @@
                       <th>Tanggal</th>
                       <th>Kategori</th>
                       <th>Dilihat</th>
-                      <th>Suka</th>
-                      <th>Tidak Suka</th>
+                      <th><i class="fas fa-thumbs-up"></i> <i class="fas fa-thumbs-down"></i></th>
+                      <th>Penulis</th>
                       <th>Status</th>
                       <th><i class="fas fa-cogs"></i></th>
                     </tr>
@@ -50,12 +50,12 @@
                       <td>
                         <img src="<?= base_url('assets/theme_admin/img/artikel/') . $a['gambar_artikel'] ?>" width="100">
                       </td>
-                    	<td><?= $a['judul']; ?></td>
+                    	<td><?= word_limiter($a['judul'], 5); ?></td>
                       <td><?= date('d-m-Y', strtotime($a['tanggal'])); ?></td>
                       <td><?= $a['nama_kategori']; ?></td>
                       <td><?= $a['dilihat']; ?></td>
-                      <td><?= $a['suka']; ?></td>
-                      <td><?= $a['dislike']; ?></td>
+                      <td><?= $a['suka'] . ' / ' . $a['dislike']; ?></td>
+                      <td><?= $a['nama_penulis']; ?></td>
                       <td>
                         <?php if($a['status'] == 1) : ?>
                           <span class="badge badge-success">Publish</span>

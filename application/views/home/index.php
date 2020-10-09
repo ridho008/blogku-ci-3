@@ -1,7 +1,7 @@
 <div class="container py-5">
 	<!-- Slide Berita Populer -->
 	<div class="row">
-		<div class="col-md">
+		<div class="col-md-8">
 			<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
 			  <ol class="carousel-indicators">
 			    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -17,11 +17,13 @@
 			  	<?php endif; ?>
 			  	<?php $no++; ?>
 			    <div class="carousel-item <?= $active; ?>">
+			    	<a href="<?= base_url('artikel/') . strtolower($p['slug']); ?>">
 			      <img src="<?= base_url('assets/theme_admin/img/artikel/') . $p['gambar_artikel']; ?>" class="d-block w-100" alt="<?= $p['gambar_artikel']; ?>">
 			      <div class="carousel-caption d-none d-md-block" style="text-shadow: 0px 4px 10px #000; font-weight: bold;">
 			        <h5><?= $p['judul']; ?></h5>
 			        <p><?= $p['tag']; ?></p>
 			      </div>
+			      </a>
 			    </div>
 			    <?php endforeach; ?>
 			  </div>
@@ -35,6 +37,29 @@
 			  </a>
 			</div>
 		</div>
+		<!-- Kategori Sebelah Corosel -->
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h4>Kategori Teknologi</h4>
+				</div>
+				<div class="card-body">
+					<div class="list-group">
+						<?php foreach($artikelKategori as $aKat) : ?>
+					  <a href="<?= base_url('artikel/') . strtolower($aKat['slug']); ?>" class="list-group-item list-group-item-action">
+					    <div class="d-flex w-100 justify-content-between">
+					      <h5 class="mb-1"><?= $aKat['judul']; ?></h5>
+					      <small>3 days ago</small>
+					    </div>
+					    <p class="mb-1"><?= word_limiter($aKat['isi_artikel'], 9); ?></p>
+					    <small><i class="fas fa-user"></i> <?= $aKat['nama_penulis']; ?> | <i class="fas fa-tag"></i> <?= $aKat['nama_kategori']; ?></small>
+					  </a>
+				 	  <?php endforeach; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Kategori Sebelah Corosel -->
 	</div>
 	<!-- End Slide Berita Populer -->
 	<div class="row py-4">
@@ -47,7 +72,7 @@
 					  <li class="media">
 					    <img src="<?= base_url('assets/theme_admin/img/artikel/') . $a['gambar_artikel']; ?>" class="mr-3 img-thumbnail" width="200">
 					    <div class="media-body">
-					      <h5 class="mt-0 mb-1"><?= $a['judul']; ?></h5>
+					      <a href="<?= base_url('artikel/') . strtolower($a['slug']); ?>" class="text-dark"><h5 class="mt-0 mb-1"><?= $a['judul']; ?></h5></a>
 					      <small>
 	                <div class="form-inline">
 	                	<div class="form-group">
@@ -82,18 +107,7 @@
 					<h4>Kategori Teknologi</h4>
 				</div>
 				<div class="card-body">
-					<div class="list-group">
-						<?php foreach($artikelKategori as $aKat) : ?>
-					  <a href="<?= base_url('artikel/') . $aKat['slug']; ?>" class="list-group-item list-group-item-action">
-					    <div class="d-flex w-100 justify-content-between">
-					      <h5 class="mb-1"><?= $aKat['judul']; ?></h5>
-					      <small>3 days ago</small>
-					    </div>
-					    <p class="mb-1"><?= word_limiter($aKat['isi_artikel'], 9); ?></p>
-					    <small><i class="fas fa-user"></i> <?= $aKat['nama_penulis']; ?> | <i class="fas fa-tag"></i> <?= $aKat['nama_kategori']; ?></small>
-					  </a>
-				 	  <?php endforeach; ?>
-					</div>
+					
 				</div>
 			</div>
 

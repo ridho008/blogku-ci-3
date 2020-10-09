@@ -21,4 +21,15 @@ class Home extends CI_Controller {
 		$this->load->view('themeplates/footer');
 	}
 
+	public function detailArtikel($slug)
+	{
+		// AMbil slug dri DB
+		$data['isi'] = $this->Artikel_model->get_slug($slug)->row_array();
+		$data['title'] = $data['isi']['judul'];
+		$this->load->view('themeplates/header', $data);
+		$this->load->view('themeplates/navbar', $data);
+		$this->load->view('home/detail_artikel', $data);
+		$this->load->view('themeplates/footer');
+	}
+
 }

@@ -124,4 +124,11 @@ class Artikel_model extends CI_Model {
 		return $this->db->get()->result_array();
 	}
 
+	public function get_slug($slug) {
+		$this->db->select('*');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		return $this->db->get_where('artikel', ['slug' => $slug]);
+	}
+
 }

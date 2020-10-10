@@ -8,6 +8,8 @@ class Artikel_model extends CI_Model {
 		$this->db->from('artikel');
 		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
 		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		$this->db->limit('4');
+		$this->db->order_by('artikel.id_artikel', 'desc');
 		return $this->db->get()->result_array();
 	}
 
@@ -129,6 +131,16 @@ class Artikel_model extends CI_Model {
 		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
 		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
 		return $this->db->get_where('artikel', ['slug' => $slug]);
+	}
+
+	public function keywordSearch($keyword)
+	{
+		$this->db->select('*');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		$this->db->like('artikel.judul', $keyword);
+		$this->db->order_by('artikel.tanggal', 'desc');
+		return $this->db->get('artikel')->result_array();
 	}
 
 }

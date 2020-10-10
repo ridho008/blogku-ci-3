@@ -54,5 +54,18 @@ $route['default_controller'] = 'home';
 // Halaman Depan (HOME)
 $route['artikel/(:any)'] = 'home/detailArtikel/$1';
 
+// Pencarian
+$route['pencarian'] = 'home/pencarian';
+
+// Login & Daftar Akun Tamu
+$route['login'] = 'auth/login_tamu';
+$route['daftar'] = 'auth/daftar_tamu';
+$route['logout'] = 'auth/logoutTamu';
+
+// Profile
+$route['profil/(:any)/(:any)'] = 'home/profileTamu/$1/$2';
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

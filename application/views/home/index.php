@@ -87,10 +87,10 @@
 	                	</div>
 	                </div>
 					      </small>
-					      <?= word_limiter($a['isi_artikel'], 100); ?>
+					      <?= word_limiter($a['isi_artikel'], 17); ?>
 					      <div class="row">
 					      	<div class="col-md-2 mt-1">
-					      		<a href="<?= base_url('artikel/') . $a['slug']; ?>" class="btn btn-secondary btn-sm">Baca</a>
+					      		<a href="<?= base_url('artikel/') . strtolower($a['slug']); ?>" class="btn btn-secondary btn-sm">Baca</a>
 					      	</div>
 					      </div>
 					    </div>

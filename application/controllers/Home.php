@@ -6,6 +6,7 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Artikel_model');
+		$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -26,6 +27,25 @@ class Home extends CI_Controller {
 		// AMbil slug dri DB
 		$data['isi'] = $this->Artikel_model->get_slug($slug)->row_array();
 		$data['title'] = $data['isi']['judul'] . ' - BLOGKU';
+
+		$this->load->helper('cookie');
+		$checkVisitor = $this->input->cookie($slug, false);
+		$ipAddress = $this->input->ip_address();
+
+		// Jika pengunjung melihat artikel
+		if($checkVisitor == false) {
+			$cookie = [
+				"name" => $slug,
+				"value" => $ipAddress,
+				'expire' => time() + 7200, // 2Jam
+				'secure' => false
+			];
+
+			// set cookie dan update jumlah view
+			$this->input->set_cookie($cookie);
+			$this->Artikel_model->updateCounter($slug);
+		}	
+
 		$this->load->view('themeplates/header', $data);
 		$this->load->view('themeplates/navbar', $data);
 		$this->load->view('home/detail_artikel', $data);
@@ -63,10 +83,45 @@ class Home extends CI_Controller {
 			endif;
 			$data['user'] = $this->db->get_where('users', ['username' => $username])->row_array();
 			$data['title'] = 'Profile ' . ucfirst($username);
-			$this->load->view('themeplates/header', $data);
-			$this->load->view('themeplates/navbar', $data);
-			$this->load->view('home/' . $folder . '/profile', $data);
-			$this->load->view('themeplates/footer');
+			$this->form_validation->set_rules('passwordLama', 'Password Lama', 'required|trim');
+			$this->form_validation->set_rules('passwordBaru1', 'Password Baru', 'required|trim|min_length[3]|matches[passwordBaru2]');
+			$this->form_validation->set_rules('passwordBaru2', 'Password Baru', 'required|trim|matches[passwordBaru1]');
+			if($this->form_validation->run() == FALSE) {
+				$this->load->view('themeplates/header', $data);
+				$this->load->view('themeplates/navbar', $data);
+				$this->load->view('home/' . $folder . '/profile', $data);
+				$this->load->view('themeplates/footer');
+			} else {
+				$this->ubahPasswordTamu();
+			}
+		}
+	}
+
+	public function ubahPasswordTamu()
+	{
+		$passwordLama = html_escape($this->input->post('passwordLama', true));
+		$passwordBaru = html_escape($this->input->post('passwordBaru1', true));
+		$konfirmasiPassword = html_escape($this->input->post('passwordBaru2', true));
+
+		$user = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
+
+		if(!password_verify($passwordLama, $user['password'])) {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Salah!.</div>');
+			redirect('profil/user/' . $this->session->userdata('username'));
+		} else {
+			if($passwordLama == $passwordBaru) {
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Sama Dengan Yang Baru! Coba Password Lain.</div>');
+				redirect('profil/user/' . $this->session->userdata('username'));
+			} else {
+				$passwordHash = password_hash($passwordBaru, PASSWORD_DEFAULT);
+
+				$this->db->set('password', $passwordHash);
+				$this->db->where('username', $this->session->userdata('username'));
+				$this->db->update('users');
+
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Password Berhasil Di Ganti.</div>');
+				redirect('profil/user/' . $this->session->userdata('username'));
+			}
 		}
 	}
 

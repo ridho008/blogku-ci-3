@@ -143,4 +143,16 @@ class Artikel_model extends CI_Model {
 		return $this->db->get('artikel')->result_array();
 	}
 
+	public function updateCounter($slug)
+	{
+		$this->db->where('slug', $slug);
+		$this->db->select('dilihat');
+		$count = $this->db->get('artikel')->row_array();
+
+		// Tambah Satu
+		$this->db->where('slug', $slug);
+		$this->db->set('dilihat', ($count['dilihat'] + 1));
+		$this->db->update('artikel');
+	}
+
 }

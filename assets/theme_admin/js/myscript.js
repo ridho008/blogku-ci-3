@@ -1,3 +1,12 @@
+// Fitur copy link di detail artikel
+function copyClipboard()
+{
+	var link = document.getElementById('clip');
+	link.select();
+	document.execCommand("copy");
+	alert('url berhasil dicopy');
+}
+
 $(function() {
 	CKEDITOR.replace('editor1');
 	$(".datatables").DataTable({

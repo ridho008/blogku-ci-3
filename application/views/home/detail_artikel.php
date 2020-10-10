@@ -50,10 +50,12 @@
 						<div class="col-md-6">
 						<?php if($this->session->userdata('status') == true) : ?>
 							<!-- Like -->
-							<div class="form-inline py-5">
+							<input type="text" id="clip" value="<?= base_url(uri_string()); ?>" class="form-control mt-2">
+							<small onclick="copyClipboard()" class="text-muted">Copy Clipboard</small>
+							<div class="form-inline py-3">
 								<button class="btn btn-primary mr-1"><i class="fas fa-thumbs-up"></i> Like</button>
 								<button class="btn btn-dark mr-1"><i class="fas fa-thumbs-down"></i> Dislike</button>
-								<button class="btn btn-success"><i class="fas fa-share"></i> Social Media</button>
+								<button onclick="copyClipboard()" class="btn btn-success"><i class="fas fa-share"></i> Social Media</button>
 							</div>
 							<!-- End Like -->
 							<?php else : ?>
@@ -69,6 +71,7 @@
 
 					<!-- Kolom Komentar -->
 					<?php if($this->session->userdata('status') == true) : ?>
+					<?= $this->session->flashdata('komentar'); ?>
 					<div class="row">
 						<div class="col-md-3">
 							<?php 
@@ -82,6 +85,7 @@
 						</div>
 						<div class="col-md-8">
 							<?= form_open(''); ?>
+							<input type="hidden" name="id_artikel" value="<?= $isi['id_artikel']; ?>">
                             <div class="form-group">
                         		<label for="username">Username</label>
                         		<input type="text" name="username" id="username" value="<?= $this->session->userdata('username'); ?>" readonly class="form-control">
@@ -89,6 +93,7 @@
                         	<div class="form-group">
                         		<label for="komentar">Komentar</label>
                         		<textarea name="komentar" id="komentar" class="form-control"></textarea>
+                        		<small class="muted text-danger"><?= form_error('komentar'); ?></small>
                         	</div>
                         	<div class="form-check mb-2">
                         	  <input class="form-check-input" type="checkbox" id="defaultCheck1">
@@ -104,6 +109,37 @@
 					</div>
 					<?php endif; ?>
 					<!-- End Kolom Komentar -->
+
+					<!-- Menampilkan Komentar -->
+					<div class="row">
+						<div class="col-md">
+							<?php foreach($komentar as $k) : ?>
+							<div class="media table-hover">
+								<?php if($k['foto_tamu'] == null) : ?>
+								<?php 
+								if($k['jk_tamu'] == 'L') : // Jika laki
+								  $img = base_url('assets/img/profile/male.jpg');
+								elseif ($k['jk_tamu'] == 'P'):
+								  $img = base_url('assets/img/profile/female.jpg');
+								else :
+								  $img = base_url('assets/img/profile/female.jpg');
+								endif;
+								?>
+								<?php else : ?>
+									<?php $img = base_url('assets/img/profile/' . $k['foto_tamu']); ?>
+								<?php endif; ?>
+							    <img src="<?= $img; ?>" class="mr-3" width="90px">
+							    <div class="media-body">
+							        <h5 class="mt-0"><?= $k['nama_tamu'] ?></h5>
+								    <?php $tglKomen = date_create($k['tgl_komen']); ?>
+								    <small><?= date_format($tglKomen, 'd F Y'); ?></small><br>
+								    <?= $k['isi'] ?>
+							    </div>
+							</div>
+						    <?php endforeach; ?>
+						</div>
+					</div>
+					<!-- /Menampilkan Komentar -->
 				</div>
 			</div>
 		</div>

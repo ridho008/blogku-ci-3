@@ -4,11 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Artikel_model extends CI_Model {
 	public function getJoinArtikelKategori()
 	{
-		$this->db->select('*');
+		$this->db->select('*, artikel.status AS Status');
+		$this->db->from('artikel');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		// $this->db->limit('4');
+		$this->db->order_by('artikel.id_artikel', 'desc');
+		return $this->db->get()->result_array();
+	}
+
+	public function getJoinArtikelKategoriWhereStatus()
+	{
+		$this->db->select('*, artikel.status AS Status');
 		$this->db->from('artikel');
 		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
 		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
 		$this->db->limit('4');
+		$this->db->where('artikel.status', 1);
 		$this->db->order_by('artikel.id_artikel', 'desc');
 		return $this->db->get()->result_array();
 	}
@@ -153,6 +165,27 @@ class Artikel_model extends CI_Model {
 		$this->db->where('slug', $slug);
 		$this->db->set('dilihat', ($count['dilihat'] + 1));
 		$this->db->update('artikel');
+	}
+
+	public function tambahDataKomentar()
+	{
+		$data = [
+			'id_artikel' => html_escape($this->input->post('id_artikel', true)),
+			'id_user' => $this->session->userdata('id_user'),
+			'tgl_komen' => date('Y-m-d'),
+			'isi' => html_escape($this->input->post('komentar', true)),
+			'status' => 1
+		];
+
+		$this->db->insert('komentar', $data);
+	}
+
+	public function getKomentar($idArtikel)
+	{
+		$this->db->join('users', 'users.id_user = komentar.id_user');
+		$this->db->join('artikel', 'artikel.id_artikel = komentar.id_artikel');
+		$this->db->join('tamu', 'tamu.id_user = users.id_user');
+		return $this->db->get_where('komentar', ['komentar.id_artikel' => $idArtikel]);
 	}
 
 }

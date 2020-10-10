@@ -12,7 +12,7 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$data['title'] = 'BLOGKU';
-		$data['artikel'] = $this->Artikel_model->getJoinArtikelKategori();
+		$data['artikel'] = $this->Artikel_model->getJoinArtikelKategoriWhereStatus();
 		$data['populer'] = $this->Artikel_model->getJoinDilihat();
 		$data['artikelKategori'] = $this->Artikel_model->getJoinKategori();
 		$data['kategori'] = $this->db->get('kategori')->result_array();
@@ -44,12 +44,28 @@ class Home extends CI_Controller {
 			// set cookie dan update jumlah view
 			$this->input->set_cookie($cookie);
 			$this->Artikel_model->updateCounter($slug);
-		}	
+		}
 
-		$this->load->view('themeplates/header', $data);
-		$this->load->view('themeplates/navbar', $data);
-		$this->load->view('home/detail_artikel', $data);
-		$this->load->view('themeplates/footer');
+		// Komentar
+		$idArtikel = $data['isi']['id_artikel']; 
+		$data['komentar'] = $this->Artikel_model->getKomentar($idArtikel)->result_array();
+
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required|trim');
+		if($this->form_validation->run() == FALSE) {
+			$this->load->view('themeplates/header', $data);
+			$this->load->view('themeplates/navbar', $data);
+			$this->load->view('home/detail_artikel', $data);
+			$this->load->view('themeplates/footer');
+		} else {
+			$this->tambahKomentar($slug);
+		}
+	}
+
+	public function tambahKomentar($slug)
+	{
+		$this->Artikel_model->tambahDataKomentar();
+		$this->session->set_flashdata('komentar', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Komentar Berhasil Ditampilkan.</div>');
+		redirect('artikel/' . $slug);
 	}
 
 	public function pencarian()

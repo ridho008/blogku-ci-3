@@ -57,14 +57,14 @@
                       <td><?= $a['suka'] . ' / ' . $a['dislike']; ?></td>
                       <td><?= $a['nama_penulis']; ?></td>
                       <td>
-                        <?php if($a['status'] == 1) : ?>
+                        <?php if($a['Status'] == 1) : ?>
                           <span class="badge badge-success">Publish</span>
                           <?php else : ?>
                           <span class="badge badge-secondary">Draft</span>
                         <?php endif; ?>
                       </td>
                     	<td>
-                        <?php if($a['status'] == 0) : ?>
+                        <?php if($a['Status'] == 0) : ?>
                         <a href="<?= base_url('admin/artikel/publish/') . $a['id_artikel']; ?>" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Publikasikan ?" onclick="return confirm('Publikasikan ?')"><i class="fas fa-paper-plane"></i></a>
                         <?php else : ?>
                         <a href="<?= base_url('admin/artikel/draft/') . $a['id_artikel']; ?>" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Draft ?" onclick="return confirm('Draft ?')"><i class="fab fa-firstdraft"></i></a>

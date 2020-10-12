@@ -188,4 +188,15 @@ class Artikel_model extends CI_Model {
 		return $this->db->get_where('komentar', ['komentar.id_artikel' => $idArtikel]);
 	}
 
+	public function get_where($table, $data)
+	{
+		return $this->db->get_where($table, $data);
+	}
+
+	public function hapus($table, $id)
+	{
+		$this->db->where('id_artikel', $id);
+		return $this->db->delete($table);
+	}
+
 }

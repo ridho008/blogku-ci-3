@@ -53,8 +53,16 @@
 							<input type="text" id="clip" value="<?= base_url(uri_string()); ?>" class="form-control mt-2">
 							<small onclick="copyClipboard()" class="text-muted">Copy Clipboard</small>
 							<div class="form-inline py-3">
-								<button class="btn btn-primary mr-1"><i class="fas fa-thumbs-up"></i> Like</button>
-								<button class="btn btn-dark mr-1"><i class="fas fa-thumbs-down"></i> Dislike</button>
+								<?php if($cekLike === 1) : ?>
+								<button type="button" disabled class="btn btn-primary mr-1"><i class="fas fa-thumbs-up"></i> Like</button>
+								<?php else : ?>
+									<a href="<?= base_url('like/') . $isi['id_artikel'] . '/' . strtolower($isi['slug']); ?>" class="btn btn-primary mr-1"><i class="fas fa-thumbs-up"></i> Like</a>
+								<?php endif; ?>
+								<?php if($dislike > 0) : ?>
+								<button type="button" disabled class="btn btn-dark mr-1"><i class="fas fa-thumbs-down"></i> Dislike</button>
+								<?php else : ?>
+									<a href="<?= base_url('dislike/') . $isi['id_artikel'] . '/' . strtolower($isi['slug']); ?>" class="btn btn-dark mr-1"><i class="fas fa-thumbs-down"></i> Dislike</a>
+								<?php endif; ?>
 								<button onclick="copyClipboard()" class="btn btn-success"><i class="fas fa-share"></i> Social Media</button>
 							</div>
 							<!-- End Like -->

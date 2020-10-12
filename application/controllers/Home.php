@@ -50,6 +50,16 @@ class Home extends CI_Controller {
 		$idArtikel = $data['isi']['id_artikel']; 
 		$data['komentar'] = $this->Artikel_model->getKomentar($idArtikel)->result_array();
 
+		// Cek Tombol Like
+		$dataLike = [
+			'id_artikel' => $idArtikel,
+			'id_user' => $this->session->userdata('id_user')
+		];
+		$tableSukai = 'sukai';
+		$tableDislike = 'dislike';
+		$data['cekLike'] = $this->Artikel_model->get_where($tableSukai, $dataLike)->num_rows();
+		$data['dislike'] = $this->Artikel_model->get_where($tableDislike, $dataLike)->num_rows();
+
 		$this->form_validation->set_rules('komentar', 'Komentar', 'required|trim');
 		if($this->form_validation->run() == FALSE) {
 			$this->load->view('themeplates/header', $data);
@@ -139,6 +149,48 @@ class Home extends CI_Controller {
 				redirect('profil/user/' . $this->session->userdata('username'));
 			}
 		}
+	}
+
+	public function likeArtikel($idArtikel, $slug)
+	{
+		$data = [
+			'id_artikel' => $idArtikel,
+			'id_user' => $this->session->userdata('id_user')
+		];
+
+		// Proses cek dislike
+		$tableDislike = 'dislike';
+		$cek = $this->Artikel_model->get_where($tableDislike, $data)->num_rows();
+		if($cek > 0) {
+			$datanya = $this->Artikel_model->get_where($tableDislike, $data)->row_array();
+			$idArtikel = $datanya['id_artikel'];
+			$hapus = $this->Artikel_model->hapus($tableDislike, $idArtikel);
+		}
+
+		$this->db->insert('sukai', $data);
+		$this->session->set_flashdata('komentar', '<div class="alert alert-success"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Anda Berhasil Like Artikel.</div>');
+		redirect('artikel/' . $slug);
+	}
+
+	public function dislikeArtikel($idArtikel, $slug)
+	{
+		$data = [
+			'id_artikel' => $idArtikel,
+			'id_user' => $this->session->userdata('id_user')
+		];
+
+		// Proses cek dislike
+		$tableDislike = 'sukai';
+		$cek = $this->Artikel_model->get_where($tableDislike, $data)->num_rows();
+		if($cek > 0) {
+			$datanya = $this->Artikel_model->get_where($tableDislike, $data)->row_array();
+			$idArtikel = $datanya['id_artikel'];
+			$hapus = $this->Artikel_model->hapus($tableDislike, $idArtikel);
+		}
+
+		$this->db->insert('dislike', $data);
+		$this->session->set_flashdata('komentar', '<div class="alert alert-success"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Anda Berhasil Dislike Artikel.</div>');
+		redirect('artikel/' . $slug);
 	}
 
 }

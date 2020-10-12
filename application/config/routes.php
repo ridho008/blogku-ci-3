@@ -65,6 +65,11 @@ $route['logout'] = 'auth/logoutTamu';
 // Profile
 $route['profil/(:any)/(:any)'] = 'home/profileTamu/$1/$2';
 
+// ---------- Halaman Detail---------
+$route['like/(:num)/(:any)'] = 'home/likeArtikel/$1/$2';
+$route['dislike/(:num)/(:any)'] = 'home/dislikeArtikel/$1/$2';
+
+
 
 
 

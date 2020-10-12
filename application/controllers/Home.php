@@ -107,8 +107,13 @@ class Home extends CI_Controller {
 				$data = ['id_user' => $idUser];
 				$data['profile'] = $this->db->get_where('tamu', ['id_user' => $idUser])->row_array();
 			endif;
-			$data['user'] = $this->db->get_where('users', ['username' => $username])->row_array();
 			$data['title'] = 'Profile ' . ucfirst($username);
+			// Artikel yg di sukai
+			$data['user'] = $this->db->get_where('users', ['username' => $username])->row_array();
+			$idUser = $data['user']['id_user'];
+			$table = 'sukai';
+			// $where = ['id_user' => $idUser];
+			$data['sukai'] = $this->Artikel_model->get_where_join($table, $idUser)->result_array();
 			$this->form_validation->set_rules('passwordLama', 'Password Lama', 'required|trim');
 			$this->form_validation->set_rules('passwordBaru1', 'Password Baru', 'required|trim|min_length[3]|matches[passwordBaru2]');
 			$this->form_validation->set_rules('passwordBaru2', 'Password Baru', 'required|trim|matches[passwordBaru1]');

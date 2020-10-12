@@ -67,4 +67,52 @@
 		</div>
 	    <?php endif; ?>
 	</div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h4><i class="fas fa-thumbs-up"></i> Artikel Yang Disukai</h4>
+          <div class="card-body">
+            <li class="row">
+              <div class="col-md-12">
+                <ul class="list-unstyled">
+                <?php foreach($sukai as $a) : ?>
+                  <li class="media">
+                    <img src="<?= base_url('assets/theme_admin/img/artikel/') . $a['gambar_artikel']; ?>" class="mr-3 img-thumbnail" width="200">
+                    <div class="media-body">
+                      <a href="<?= base_url('artikel/') . strtolower($a['slug']); ?>" class="text-dark"><h5 class="mt-0 mb-1"><?= $a['judul']; ?></h5></a>
+                      <small>
+                        <div class="form-inline">
+                          <div class="form-group">
+                            <i class="fas fa-user pr-1"></i> <?= $a['nama_penulis']; ?>
+                          </div>
+                          <div class="form-group pl-2">
+                            <?php $tgl = date_create($a['tanggal']); ?>
+                            <i class="fas fa-calendar pr-1"></i> <?= date_format($tgl, 'd F Y'); ?>
+                          </div>
+                          <div class="form-group pl-2">
+                            <i class="fas fa-tag pr-1"></i> <?= $a['nama_kategori']; ?>
+                          </div>
+                        </div>
+                        <span class="form-inline">
+                          <div class="form-group">
+                            <i class="fas fa-eye pr-1"></i> <?= $a['dilihat']; ?>
+                          </div>
+                        </span>
+                      </small>
+                    </div>
+                  </li>
+                <?php endforeach; ?>
+                <ul></ul>
+              </div>
+            </li>
+          </div>
+        </div>
+        <div class="col-md-6">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet sapiente qui fugiat quaerat inventore minima quae aliquam, error laborum id nemo, iure sunt molestiae ad harum dolor, nam quos asperiores.
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

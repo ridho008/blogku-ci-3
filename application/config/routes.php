@@ -70,6 +70,13 @@ $route['like/(:num)/(:any)'] = 'home/likeArtikel/$1/$2';
 $route['dislike/(:num)/(:any)'] = 'home/dislikeArtikel/$1/$2';
 
 
+// ---------------PENULIS----------------
+$route['penulis/artikel'] = 'user/ArtikelPenulis/index';
+$route['penulis/tambahArtikel'] = 'user/ArtikelPenulis/tambahArtikel';
+$route['penulis/ubahArtikel/(:num)'] = 'user/ArtikelPenulis/ubahArtikel/$1';
+
+
+
 
 
 

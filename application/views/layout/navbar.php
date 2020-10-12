@@ -49,6 +49,22 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          <!-- ************PENULIS************** -->
+          <?php if($this->session->userdata('role') == 2) : ?>
+            <li class="nav-item has-treeview">
+              <a href="<?= base_url('user/penulis'); ?>" class="nav-link<?= $this->uri->segment(2) == 'penulis' ? ' active' : '' ?>">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Artikel</p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="<?= base_url('penulis/artikel'); ?>" class="nav-link<?= $this->uri->segment(2) == 'artikel' ? ' active' : '' ?>">
+                <i class="nav-icon fas fa-newspaper"></i>
+                <p>Artikel</p>
+              </a>
+            </li>
+          <?php endif; ?>
+          <!-- ************END PENULIS************** -->
           <?php if($this->session->userdata('role') == 1) : ?>
           <li class="nav-item has-treeview">
             <a href="<?= base_url('admin/dashboard'); ?>" class="nav-link<?= $this->uri->segment(2) == 'dashboard' ? ' active' : '' ?>">

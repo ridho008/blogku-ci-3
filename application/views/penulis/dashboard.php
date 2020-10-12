@@ -19,7 +19,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3><?= $jumlahArtikel; ?></h3>
 
                 <p>Artikel</p>
               </div>
@@ -34,9 +34,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3><?= $jumlahLike; ?></i></h3>
 
-                <p>Kategori</p>
+                <p>Like</p>
               </div>
               <div class="icon">
                 <i class="ion ion-ios-pricetags"></i>
@@ -49,9 +49,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3 class="text-white">44</h3>
+                <h3 class="text-white"><?= $jumlahDislike; ?></h3>
 
-                <p class="text-white">Komentar</p>
+                <p class="text-white">Dislike</p>
               </div>
               <div class="icon">
                 <i class="ion ion-chatboxes"></i>

@@ -193,10 +193,45 @@ class Artikel_model extends CI_Model {
 		return $this->db->get_where($table, $data);
 	}
 
+	public function get_where_join($table, $idUser)
+	{
+		$this->db->join("artikel", "$table.id_artikel = artikel.id_artikel");
+		$this->db->join("users", "$table.id_user = users.id_user");
+		$this->db->join("kategori", "kategori.id_kategori = artikel.id_kategori");
+		$this->db->join("penulis", "penulis.id_penulis = artikel.id_penulis");
+		$this->db->where("$table.id_user", $idUser);
+		return $this->db->get($table);
+	}
+
 	public function hapus($table, $id)
 	{
 		$this->db->where('id_artikel', $id);
 		return $this->db->delete($table);
+	}
+
+	// ********************PENULIS**********************
+	public function getWhereUserPenulis($where)
+	{
+		$this->db->select('*, artikel.status AS Status');
+		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
+		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
+		// $this->db->order_by('artikel.id_artikel', 'desc');
+		return $this->db->get_where('artikel', $where)->result_array();
+	}
+
+	public function getWhereCustom($where)
+	{
+		return $this->db->get_where('penulis', $where);
+	}
+
+	public function get_where_user($where)
+	{
+		return $this->db->get_where('artikel', $where);
+	}
+
+	public function get_where_like($table)
+	{
+		return $this->db->get($table, ['id_user' => $this->session->userdata('id_user')]);
 	}
 
 }

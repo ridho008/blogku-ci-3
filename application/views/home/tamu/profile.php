@@ -1,6 +1,5 @@
 <div class="container">
 	<div class="row">
-		<?php if($profile['foto_tamu'] == null) : ?>
 		<div class="col-md-6">
 			<?= $this->session->flashdata('pesan'); ?>
 			<?php if(validation_errors()) : ?>
@@ -20,16 +19,20 @@
 			  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
   				<div class="card mb-3" style="max-width: 540px;">
   				  <div class="row no-gutters">
-  				    <div class="col-md-4">
-  				    <?php
-  	                if($profile['jk_tamu'] == 'L') : ?>
+  				    <div class="col-md-4 text-center ml-1 mt-1">
+              <?php if($profile['foto_tamu'] == null) : ?>
+  				      <?php if($profile['jk_tamu'] == 'L') : ?>
   				      <img src="<?= base_url('assets/img/profile/male.jpg'); ?>" class="card-img" alt="...">
-  				    <?php elseif($profile['jk_tamu'] == 'L') : ?>
-  	                  <img src="<?= base_url('assets/img/profile/female.jpg'); ?>" class="card-img" alt="...">
-  				    <?php endif; ?>
+  				      <?php elseif($profile['jk_tamu'] == 'L') : ?>
+  	              <img src="<?= base_url('assets/img/profile/female.jpg'); ?>" class="card-img" alt="...">
+  				      <?php endif; ?>
+                <?php else : ?>
+                  <img src="<?= base_url('assets/img/profile/') . $profile['foto_tamu']; ?>" class="card-img img-thumbnail" alt="<?= $profile['foto_tamu']; ?>">
+              <?php endif; ?>
+              <button type="button" class="btn btn-primary text-center btn-block btn-sm" data-toggle="modal" data-target="#formModalGantiFoto">Ganti Foto</button>
   				    <h5 class="text-center text-muted"><?= $user['username']; ?></h5>
   				    </div>
-  				    <div class="col-md-8">
+  				    <div class="col-md-7">
   				      <div class="card-body">
   				        <h5 class="card-title"><?= $profile['nama_tamu']; ?></h5>
   				        <p class="card-text"><?= $profile['jk_tamu'] == 'L' ? 'Laki-Laki' : 'Perempuan'; ?></p>
@@ -65,9 +68,8 @@
 			  </div>
 			</div>
 		</div>
-	    <?php endif; ?>
+	    
 	</div>
-
   <div class="card">
     <div class="card-body">
       <div class="row">
@@ -112,6 +114,33 @@
         <div class="col-md-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet sapiente qui fugiat quaerat inventore minima quae aliquam, error laborum id nemo, iure sunt molestiae ad harum dolor, nam quos asperiores.
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="formModalGantiFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ganti Foto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?= form_open_multipart('home/gantiFoto'); ?>
+        <div class="form-group">
+          <label for="fotoTamu">Foto</label>
+          <input type="file" name="fotoTamu" class="form-control-file">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Ganti</button>
+        </div>
+        <?= form_close(); ?>
       </div>
     </div>
   </div>

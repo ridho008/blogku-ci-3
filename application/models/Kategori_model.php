@@ -27,4 +27,9 @@ class Kategori_model extends CI_Model {
 		return $this->db->get_where('kategori', ['id_kategori' => $id]);
 	}
 
+	public function get_where($where)
+	{
+		return $this->db->get_where('kategori', $where);
+	}
+
 }

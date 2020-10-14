@@ -69,6 +69,9 @@ $route['profil/(:any)/(:any)'] = 'home/profileTamu/$1/$2';
 $route['like/(:num)/(:any)'] = 'home/likeArtikel/$1/$2';
 $route['dislike/(:num)/(:any)'] = 'home/dislikeArtikel/$1/$2';
 
+// ------------Kategori-------------
+$route['kategori/(:any)'] = 'home/kategori/$1';
+
 
 // ---------------PENULIS----------------
 $route['penulis/artikel'] = 'user/ArtikelPenulis/index';

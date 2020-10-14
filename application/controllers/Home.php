@@ -6,12 +6,14 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Artikel_model');
+		$this->load->model('Kategori_model');
 		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{
 		$data['title'] = 'BLOGKU';
+		$data['user'] = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
 		$data['artikel'] = $this->Artikel_model->getJoinArtikelKategoriWhereStatus();
 		$data['populer'] = $this->Artikel_model->getJoinDilihat();
 		$data['artikelKategori'] = $this->Artikel_model->getJoinKategori();
@@ -196,6 +198,65 @@ class Home extends CI_Controller {
 		$this->db->insert('dislike', $data);
 		$this->session->set_flashdata('komentar', '<div class="alert alert-success"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Anda Berhasil Dislike Artikel.</div>');
 		redirect('artikel/' . $slug);
+	}
+
+	public function kategori($kategori)
+	{
+		$data['user'] = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
+		$data['title'] = 'Kategori ' . ucfirst($kategori);
+		// Ambil id berdasarkan nama kategori
+		// $where = ['nama_kategori' => $kategori];
+		// $rowKategori = $this->Kategori_model->get_where($where)->row_array();
+
+		// Ambil data artikel berdasarkan kategori
+		// $idKategori = $rowKategori['id_kategori'];
+		// $where = ['id_kategori' => $idKategori];
+		$table1 = 'penulis';
+		$table2 = 'kategori';
+		$data['kategorilist'] = $this->Artikel_model->getDetailKategori($table1, $table2 ,$kategori)->result_array();
+		$data['hasilKategori'] = $kategori;
+
+		$this->load->view('themeplates/header', $data);
+		$this->load->view('themeplates/navbar', $data);
+		$this->load->view('home/kategori/index', $data);
+		$this->load->view('themeplates/footer');
+	}
+
+	// Ganti Foto Tamu
+	public function gantiFoto()
+	{
+		$idUser = $this->session->userdata('id_user');
+		$where = ['id_user' => $idUser];
+		$data = $this->Artikel_model->get_where('tamu', $where)->row_array();
+		// var_dump($data);
+		$foto = $_FILES['fotoTamu']['name'];
+		if($foto) {
+			$config['upload_path']          = './assets/img/profile/';
+            $config['allowed_types']        = 'jpg|png';
+            $config['max_size']             = 2048;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('fotoTamu'))
+            {
+                $error = array('error' => $this->upload->display_errors());
+                $this->load->view('admin/artikel/index', $error);
+            }
+            else
+            {
+                $fotoTamuBaru = $this->upload->data('file_name');
+                $this->db->set('foto_tamu', $fotoTamuBaru);
+                $this->db->where('id_tamu', $data['id_tamu']);
+				$this->db->update('tamu');
+            }
+		} else {
+			$this->session->set_flashdata('pesan', '<div class="alert alert-alert" role="alert"><i class="fas fa-info"></i> Foto Penulis Belum Anda Upload.</div>');
+			redirect('admin/penulis');
+		}
+
+		
+		$this->session->set_flashdata('pesan', '<div class="alert alert-alert" role="alert"><i class="fas fa-info"></i> Foto Penulis Berhasil Anda Upload.</div>');
+			redirect('profil/user/' . $this->session->userdata('username'));
 	}
 
 }

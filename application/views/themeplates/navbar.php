@@ -27,6 +27,11 @@
           else :
             $img = base_url('assets/img/profile/female.jpg');
           endif;
+          if($this->session->userdata('role') == 3) :
+            $where = ['id_user' => $this->session->userdata('id_user')];
+            $foto = $this->db->get_where('tamu', $where)->row_array();
+            $img = base_url('assets/img/profile/' . $foto['foto_tamu']);
+          endif;
           ?>
           <img src="<?= $img ?>" width="40" heigth="40">
         </a>
@@ -37,6 +42,7 @@
         </div>
       </li>
       <?php else : ?>
+        <?php if(!$this->session->userdata('role') == 1) : ?>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
@@ -45,6 +51,7 @@
           <a class="nav-link" href="<?= base_url('daftar'); ?>">Daftar</a>
         </li>
       </ul> 
+        <?php endif; ?>
       <?php endif; ?>
       <!-- END TAMU -->
 
@@ -69,17 +76,23 @@
           <a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a>
         </div>
       </li>
-      <?php else : ?>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= base_url('daftar'); ?>">Daftar</a>
-        </li>
-      </ul> 
       <?php endif; ?>
       <!-- END PENULIS -->
+
+      <!-- ADMIN -->
+      <?php if($this->session->userdata('role') == 1) : ?>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?= ucfirst($user['username']); ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="<?= base_url('admin/dashboard'); ?>">Dashboard</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<?= base_url('auth/logout'); ?>">Logout</a>
+        </div>
+      </li>
+      <?php endif; ?>
+      <!-- END ADMIN -->
     </div>
   </div>
 </nav>

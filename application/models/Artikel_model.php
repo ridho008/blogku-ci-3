@@ -209,6 +209,15 @@ class Artikel_model extends CI_Model {
 		return $this->db->delete($table);
 	}
 
+	public function getDetailKategori($table1, $table2, $kategori)
+	{
+		$this->db->join("$table1", "$table1.id_penulis = artikel.id_penulis");
+		$this->db->join("$table2", "$table2.id_kategori = artikel.id_kategori");
+		$this->db->where("kategori.nama_kategori", "$kategori");
+		return $this->db->get('artikel');
+	}
+
+
 	// ********************PENULIS**********************
 	public function getWhereUserPenulis($where)
 	{

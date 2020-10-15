@@ -16,10 +16,10 @@
 							<small><i class="fas fa-tag"></i> Tags <?= $isi['tag']; ?></small>
 						</div>
 						<div class="form-group mr-1">
-							<small><i class="fas fa-thumbs-up"></i> <?= $isi['suka']; ?></small>
+							<small><i class="fas fa-thumbs-up"></i> <?= $jml_like; ?></small>
 						</div>
 						<div class="form-group mr-4">
-							<small><i class="fas fa-thumbs-down"></i> <?= $isi['dislike']; ?></small>
+							<small><i class="fas fa-thumbs-down"></i> <?= $jml_dislike; ?></small>
 						</div>
 						<div class="form-group">
 							<small><i class="fas fa-eye"></i> <?= $isi['dilihat']; ?></small>
@@ -88,6 +88,15 @@
                             elseif ($this->session->userdata('jk_tamu') == 'P'):
                               $img = base_url('assets/img/profile/female.jpg');
                             endif;
+                            if($this->session->userdata('role') == 2) :
+							    $where = ['id_user' => $this->session->userdata('id_user')];
+							    $foto = $this->db->get_where('penulis', $where)->row_array();
+							    $img = base_url('assets/theme_admin/img/penulis/' . $foto['foto_penulis']);
+							elseif($this->session->userdata('role') == 3) :
+								$where = ['id_user' => $this->session->userdata('id_user')];
+							    $foto = $this->db->get_where('tamu', $where)->row_array();
+							    $img = base_url('assets/img/profile/' . $foto['foto_tamu']);
+							  endif;
 							?>
 							<img src="<?= $img ?>" width="50%" class="img-thumbnail">
 						</div>
@@ -121,24 +130,44 @@
 					<!-- Menampilkan Komentar -->
 					<div class="row">
 						<div class="col-md">
+							<hr>
+							<h4 class="text-muted mb-1">Komentar</h4>
 							<?php foreach($komentar as $k) : ?>
-							<div class="media table-hover">
-								<?php if($k['foto_tamu'] == null) : ?>
-								<?php 
-								if($k['jk_tamu'] == 'L') : // Jika laki
-								  $img = base_url('assets/img/profile/male.jpg');
-								elseif ($k['jk_tamu'] == 'P'):
-								  $img = base_url('assets/img/profile/female.jpg');
-								else :
-								  $img = base_url('assets/img/profile/female.jpg');
+							<div class="media table-hover mb-2">
+								<?php if($k['roleKomen'] == 2) :
+									$where = ['id_user' => $k['id_user']]; 
+									$dataPenulis = $this->db->get_where('penulis', $where)->row_array();
+									$img = base_url('assets/theme_admin/img/penulis/' . $dataPenulis['foto_penulis']);
+								elseif($k['roleKomen'] == 3) :
+									// Ambil data untuk tamu
+									$where = [
+										'id_user' => $k['id_user']
+									];
+									$dataTamu = $this->db->get_where('tamu', $where)->row_array();
+									if($dataTamu['foto_tamu'] == null) :
+										if($dataTamu['jk_tamu'] == 'L') : // Jika laki
+										  $img = base_url('assets/img/profile/male.jpg');
+										elseif ($dataTamu['jk_tamu'] == 'P'):
+										  $img = base_url('assets/img/profile/female.jpg');
+										else :
+										  $img = base_url('assets/img/profile/female.jpg');
+										endif;
+									else :
+									$img = base_url('assets/img/profile/' . $dataTamu['foto_tamu']);
+									endif;
 								endif;
 								?>
-								<?php else : ?>
-									<?php $img = base_url('assets/img/profile/' . $k['foto_tamu']); ?>
-								<?php endif; ?>
+								
 							    <img src="<?= $img; ?>" class="mr-3" width="90px">
 							    <div class="media-body">
-							        <h5 class="mt-0"><?= $k['nama_tamu'] ?></h5>
+							    	<?php if($k['roleKomen'] == 2) : ?>
+							        <h5 class="mt-0"><?= $dataPenulis['nama_penulis'] ?></h5>
+							        <?php elseif($k['roleKomen'] == 3) : ?>
+							        <h5 class="mt-0"><?= $dataTamu['nama_tamu'] ?></h5>
+
+							        <?php endif; ?>
+
+
 								    <?php $tglKomen = date_create($k['tgl_komen']); ?>
 								    <small><?= date_format($tglKomen, 'd F Y'); ?></small><br>
 								    <?= $k['isi'] ?>

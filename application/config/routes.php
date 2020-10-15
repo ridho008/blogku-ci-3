@@ -78,6 +78,13 @@ $route['penulis/artikel'] = 'user/ArtikelPenulis/index';
 $route['penulis/tambahArtikel'] = 'user/ArtikelPenulis/tambahArtikel';
 $route['penulis/ubahArtikel/(:num)'] = 'user/ArtikelPenulis/ubahArtikel/$1';
 
+// -----------------Menu Pegaturan Penulis-------------
+$route['penulis/pengaturan'] = 'user/penulis/pegaturan';
+
+// -----------------Menu Komentar Penulis-------------
+$route['penulis/komentar'] = 'user/komentar/index';
+
+
 
 
 

@@ -24,7 +24,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="<?= base_url(); ?>" target="_blank" class="brand-link">
       <!-- <img src="../../dist/img/AdminLTELogo.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
@@ -54,13 +54,25 @@
             <li class="nav-item has-treeview">
               <a href="<?= base_url('user/penulis'); ?>" class="nav-link<?= $this->uri->segment(2) == 'penulis' ? ' active' : '' ?>">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Artikel</p>
+                <p>Dashboard</p>
               </a>
             </li>
             <li class="nav-item has-treeview">
               <a href="<?= base_url('penulis/artikel'); ?>" class="nav-link<?= $this->uri->segment(2) == 'artikel' ? ' active' : '' ?>">
                 <i class="nav-icon fas fa-newspaper"></i>
                 <p>Artikel</p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="<?= base_url('penulis/komentar'); ?>" class="nav-link<?= $this->uri->segment(2) == 'komentar' ? ' active' : '' ?>">
+                <i class="nav-icon fas fa-comment"></i>
+                <p>Komentar</p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="<?= base_url('penulis/pengaturan'); ?>" class="nav-link<?= $this->uri->segment(2) == 'pengaturan' ? ' active' : '' ?>">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>Pengaturan</p>
               </a>
             </li>
           <?php endif; ?>

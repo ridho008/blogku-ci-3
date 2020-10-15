@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-6 offset-md-3 py-4">
 			<?= $this->session->flashdata('pesan'); ?>
 			<?php if(validation_errors()) : ?>
 			<div class="alert alert-danger mt-2">
@@ -20,6 +20,8 @@
   				<div class="card mb-3" style="max-width: 540px;">
   				  <div class="row no-gutters">
   				    <div class="col-md-4 text-center ml-1 mt-1">
+              <!-- jika yg login tamu -->
+              <?php if($this->session->userdata('role') == 3) : ?>
               <?php if($profile['foto_tamu'] == null) : ?>
   				      <?php if($profile['jk_tamu'] == 'L') : ?>
   				      <img src="<?= base_url('assets/img/profile/male.jpg'); ?>" class="card-img" alt="...">
@@ -32,13 +34,15 @@
               <button type="button" class="btn btn-primary text-center btn-block btn-sm" data-toggle="modal" data-target="#formModalGantiFoto">Ganti Foto</button>
   				    <h5 class="text-center text-muted"><?= $user['username']; ?></h5>
   				    </div>
-  				    <div class="col-md-7">
+  				    <div class="col-md-6 py-5">
   				      <div class="card-body">
-  				        <h5 class="card-title"><?= $profile['nama_tamu']; ?></h5>
-  				        <p class="card-text"><?= $profile['jk_tamu'] == 'L' ? 'Laki-Laki' : 'Perempuan'; ?></p>
+  				        <h5 class="card-title">Nama Tamu : <?= $profile['nama_tamu']; ?></h5>
+  				        <p class="card-text">Jenis Kelamin : <?= $profile['jk_tamu'] == 'L' ? 'Laki-Laki' : 'Perempuan'; ?></p>
   				        <?php $tgl = date_create($profile['tgl_daftar']); ?>
   				        <p class="card-text"><small class="text-muted"><?= date_format($tgl, 'd F Y'); ?></small></p>
   				      </div>
+              <?php endif; ?>
+              <!-- /jika yg login tamu -->
   				    </div>
   				  </div>
   				</div>

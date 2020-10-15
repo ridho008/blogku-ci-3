@@ -30,6 +30,16 @@ class Home extends CI_Controller {
 		$data['isi'] = $this->Artikel_model->get_slug($slug)->row_array();
 		$data['title'] = $data['isi']['judul'] . ' - BLOGKU';
 
+		// Ambil data like & dislike
+		$tableLike = 'sukai';
+		$tableDislike = 'dislike';
+		$idArtikel = $data['isi']['id_artikel'];
+		$where = [
+			'id_artikel' => $idArtikel
+		];
+		$data['jml_like'] = $this->Artikel_model->get_where($tableLike, $where)->num_rows();
+		$data['jml_dislike'] = $this->Artikel_model->get_where($tableDislike, $where)->num_rows();
+
 		$this->load->helper('cookie');
 		$checkVisitor = $this->input->cookie($slug, false);
 		$ipAddress = $this->input->ip_address();
@@ -75,7 +85,12 @@ class Home extends CI_Controller {
 
 	public function tambahKomentar($slug)
 	{
-		$this->Artikel_model->tambahDataKomentar();
+		if($this->session->userdata('role') == 2):
+			$role = 2;
+		elseif($this->session->userdata('role') == 3):
+			$role = 3;
+		endif;
+		$this->Artikel_model->tambahDataKomentar($role);
 		$this->session->set_flashdata('komentar', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Komentar Berhasil Ditampilkan.</div>');
 		redirect('artikel/' . $slug);
 	}

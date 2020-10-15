@@ -33,7 +33,7 @@ class Auth extends CI_Controller {
 					'id_user' => $user['id_user'],
 					'username' => $user['username'],
 					'role' => $user['role'],
-					'status' => $user['status']
+					'status' => true
 				];
 				$this->session->set_userdata($data);
 				if($user['role'] == 1) {

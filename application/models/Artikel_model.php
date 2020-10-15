@@ -167,13 +167,14 @@ class Artikel_model extends CI_Model {
 		$this->db->update('artikel');
 	}
 
-	public function tambahDataKomentar()
+	public function tambahDataKomentar($role)
 	{
 		$data = [
 			'id_artikel' => html_escape($this->input->post('id_artikel', true)),
 			'id_user' => $this->session->userdata('id_user'),
 			'tgl_komen' => date('Y-m-d'),
 			'isi' => html_escape($this->input->post('komentar', true)),
+			'role' => $role,
 			'status' => 1
 		];
 
@@ -182,9 +183,11 @@ class Artikel_model extends CI_Model {
 
 	public function getKomentar($idArtikel)
 	{
+		$this->db->select('*, komentar.role AS roleKomen');
 		$this->db->join('users', 'users.id_user = komentar.id_user');
 		$this->db->join('artikel', 'artikel.id_artikel = komentar.id_artikel');
-		$this->db->join('tamu', 'tamu.id_user = users.id_user');
+		// $this->db->join('tamu', 'tamu.id_user = users.id_user');
+		$this->db->where('komentar.status', 1);
 		return $this->db->get_where('komentar', ['komentar.id_artikel' => $idArtikel]);
 	}
 
@@ -241,6 +244,16 @@ class Artikel_model extends CI_Model {
 	public function get_where_like($table)
 	{
 		return $this->db->get($table, ['id_user' => $this->session->userdata('id_user')]);
+	}
+
+	public function getMenuKomentar($idPenulis)
+	{
+		$this->db->select('*, komentar.status AS statusKomentar');
+		$this->db->join('users', 'users.id_user = komentar.id_user');
+		$this->db->join('artikel', 'artikel.id_artikel = komentar.id_artikel');
+		$this->db->join('tamu', 'tamu.id_user = users.id_user');
+		$this->db->where('artikel.id_penulis', $idPenulis);
+		return $this->db->get('komentar');
 	}
 
 }

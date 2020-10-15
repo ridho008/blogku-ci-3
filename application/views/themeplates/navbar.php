@@ -36,7 +36,7 @@
           <img src="<?= $img ?>" width="40" heigth="40">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?= base_url('profil/user/') . $this->session->userdata('username'); ?>">Profil</a>
+          <a class="dropdown-item" href="<?= base_url('profil/user/') . strtolower($this->session->userdata('username')); ?>">Profil</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a>
         </div>
@@ -67,13 +67,19 @@
           else :
             $img = base_url('assets/img/profile/female.jpg');
           endif;
+          if($this->session->userdata('role') == 2) :
+            $where = ['id_user' => $this->session->userdata('id_user')];
+            $foto = $this->db->get_where('penulis', $where)->row_array();
+            $img = base_url('assets/theme_admin/img/penulis/' . $foto['foto_penulis']);
+          endif;
           ?>
           <img src="<?= $img ?>" width="40" heigth="40">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?= base_url('profil/user/') . $this->session->userdata('username'); ?>">Profil</a>
+          <a class="dropdown-item" href="<?= base_url('profil/penulis/') . strtolower($this->session->userdata('username')); ?>">Profil</a>
+          <a class="dropdown-item" href="<?= base_url('user/penulis'); ?>">Dashboard</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a>
+          <a class="dropdown-item" href="<?= base_url('auth/logout'); ?>">Logout</a>
         </div>
       </li>
       <?php endif; ?>

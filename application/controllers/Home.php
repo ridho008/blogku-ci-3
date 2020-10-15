@@ -123,6 +123,11 @@ class Home extends CI_Controller {
 				$idUser = $data['user']['id_user'];
 				$data = ['id_user' => $idUser];
 				$data['profile'] = $this->db->get_where('tamu', ['id_user' => $idUser])->row_array();
+			elseif($status == 'penulis') :
+				$data['user'] = $this->db->get_where('users', ['username' => $username])->row_array();
+				$idUser = $data['user']['id_user'];
+				$data = ['id_user' => $idUser];
+				$data['profile'] = $this->db->get_where('penulis', ['id_user' => $idUser])->row_array();
 			endif;
 			$data['title'] = 'Profile ' . ucfirst($username);
 			// Artikel yg di sukai
@@ -154,12 +159,22 @@ class Home extends CI_Controller {
 		$user = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
 
 		if(!password_verify($passwordLama, $user['password'])) {
-			$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Salah!.</div>');
-			redirect('profil/user/' . $this->session->userdata('username'));
+			if($this->session->userdata('role') == 3):
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Salah!.</div>');
+				redirect('profil/user/' . strtolower($this->session->userdata('username')));
+			elseif($this->session->userdata('role') == 2):
+				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Salah!.</div>');
+				redirect('profil/penulis/' . strtolower($this->session->userdata('username')));
+			endif;
 		} else {
 			if($passwordLama == $passwordBaru) {
-				$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Sama Dengan Yang Baru! Coba Password Lain.</div>');
-				redirect('profil/user/' . $this->session->userdata('username'));
+				if($this->session->userdata('role') == 3) :
+					$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Sama Dengan Yang Baru! Coba Password Lain.</div>');
+					redirect('profil/user/' . strtolower($this->session->userdata('username')));
+				elseif($this->session->userdata('role') == 2):
+					$this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert"><i class="fas fa-info-danger"></i> Password Lama Sama Dengan Yang Baru! Coba Password Lain.</div>');
+					redirect('profil/penulis/' . strtolower($this->session->userdata('username')));
+				endif;
 			} else {
 				$passwordHash = password_hash($passwordBaru, PASSWORD_DEFAULT);
 
@@ -167,8 +182,13 @@ class Home extends CI_Controller {
 				$this->db->where('username', $this->session->userdata('username'));
 				$this->db->update('users');
 
-				$this->session->set_flashdata('pesan', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Password Berhasil Di Ganti.</div>');
-				redirect('profil/user/' . $this->session->userdata('username'));
+				if($this->session->userdata('role') == 3) {
+					$this->session->set_flashdata('pesan', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Password Berhasil Di Ganti.</div>');
+					redirect('profil/user/' . strtolower($this->session->userdata('username')));
+				} elseif($this->session->userdata('role') == 2) {
+					$this->session->set_flashdata('pesan', '<div class="alert alert-success"><i class="fa fa-bell" aria-hidden="true"></i> Password Berhasil Di Ganti.</div>');
+					redirect('profil/penulis/' . strtolower($this->session->userdata('username')));
+				}
 			}
 		}
 	}
@@ -270,7 +290,7 @@ class Home extends CI_Controller {
 		}
 
 		
-		$this->session->set_flashdata('pesan', '<div class="alert alert-alert" role="alert"><i class="fas fa-info"></i> Foto Penulis Berhasil Anda Upload.</div>');
+		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info"></i> Foto Penulis Berhasil Anda Upload.</div>');
 			redirect('profil/user/' . $this->session->userdata('username'));
 	}
 

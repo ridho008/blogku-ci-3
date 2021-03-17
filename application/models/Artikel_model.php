@@ -13,16 +13,16 @@ class Artikel_model extends CI_Model {
 		return $this->db->get()->result_array();
 	}
 
-	public function getJoinArtikelKategoriWhereStatus()
+	public function getJoinArtikelKategoriWhereStatus($limit, $start)
 	{
 		$this->db->select('*, artikel.status AS Status');
 		$this->db->from('artikel');
 		$this->db->join('kategori', 'kategori.id_kategori = artikel.id_kategori');
 		$this->db->join('penulis', 'penulis.id_penulis = artikel.id_penulis');
-		$this->db->limit('4');
+		// $this->db->limit('4');
 		$this->db->where('artikel.status', 1);
 		$this->db->order_by('artikel.id_artikel', 'desc');
-		return $this->db->get()->result_array();
+		return $this->db->get('', $limit, $start)->result_array();
 	}
 
 	public function getJoinDilihat()
@@ -254,6 +254,11 @@ class Artikel_model extends CI_Model {
 		$this->db->join('tamu', 'tamu.id_user = users.id_user');
 		$this->db->where('artikel.id_penulis', $idPenulis);
 		return $this->db->get('komentar');
+	}
+
+	public function countArtikelAll($table)
+	{
+		return $this->db->get($table);
 	}
 
 }

@@ -14,7 +14,19 @@ class Home extends CI_Controller {
 	{
 		$data['title'] = 'BLOGKU';
 		$data['user'] = $this->db->get_where('users', ['username' => $this->session->userdata('username')])->row_array();
-		$data['artikel'] = $this->Artikel_model->getJoinArtikelKategoriWhereStatus();
+
+		// Pagination
+		$config['base_url'] = 'http://localhost/blogku-ci-3/page';
+		$config['total_rows'] = $this->Artikel_model->countArtikelAll('artikel')->num_rows();
+		// var_dump($config['total_rows']);
+		$config['per_page'] = 2;
+
+		$this->pagination->initialize($config);
+
+		
+
+		$data['start'] = $this->uri->segment(2);
+		$data['artikel'] = $this->Artikel_model->getJoinArtikelKategoriWhereStatus($config['per_page'], $data['start']);
 		$data['populer'] = $this->Artikel_model->getJoinDilihat();
 		$data['artikelKategori'] = $this->Artikel_model->getJoinKategori();
 		$data['kategori'] = $this->db->get('kategori')->result_array();

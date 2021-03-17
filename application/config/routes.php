@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 
 // Halaman Depan (HOME)
+$route['/page/(:num)'] = 'home/index';
 $route['artikel/(:any)'] = 'home/detailArtikel/$1';
 
 // Pencarian

@@ -134,4 +134,8 @@
 		</div>
 		<!-- End Sidebar Right -->
 	</div>
+
+	<!-- Pagination -->
+	<?php echo $this->pagination->create_links(); ?>
+	<!-- EndPagination -->
 </div>
